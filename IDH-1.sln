@@ -1,0 +1,22 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.30621.155
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{159641D6-6404-4A2A-AE62-294DE0FE8301}") = "IDH-1", "IDH-1\IDH-1.dtproj", "{31F6C0BC-DE68-4439-8F6B-566C0655C516}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Development|Default = Development|Default
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{31F6C0BC-DE68-4439-8F6B-566C0655C516}.Development|Default.ActiveCfg = Development
+		{31F6C0BC-DE68-4439-8F6B-566C0655C516}.Development|Default.Build.0 = Development
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {68593266-9A2B-40C5-BF75-3D4094880DDA}
+	EndGlobalSection
+EndGlobal
