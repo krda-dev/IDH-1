@@ -1,0 +1,100 @@
+if exists (select * from dbo.sysobjects where id = object_id(N'[NB_HUR].[Transakcje]') and OBJECTPROPERTY(id, N'IsUserTable') = 1)
+drop table [NB_HUR].[Transakcje]
+GO
+if exists (select * from dbo.sysobjects where id = object_id(N'[NB_HUR].[Czas]') and OBJECTPROPERTY(id, N'IsUserTable') = 1)
+drop table [NB_HUR].[Czas]
+GO
+if exists (select * from dbo.sysobjects where id = object_id(N'[NB_HUR].[Rachunek]') and OBJECTPROPERTY(id, N'IsUserTable') = 1)
+drop table [NB_HUR].[Rachunek]
+GO
+if exists (select * from dbo.sysobjects where id = object_id(N'[NB_HUR].[RodzajOperacji]') and OBJECTPROPERTY(id, N'IsUserTable') = 1)
+drop table [NB_HUR].[RodzajOperacji]
+GO
+if exists (select * from dbo.sysobjects where id = object_id(N'[NB_HUR].[OddzialBanku]') and OBJECTPROPERTY(id, N'IsUserTable') = 1)
+drop table [NB_HUR].[OddzialBanku]
+GO
+
+CREATE TABLE NB_HUR.Czas (
+	IdCzasu int identity(1,1) PRIMARY KEY,
+	Data date NOT NULL,
+	Dzien numeric(2) NOT NULL,
+	Miesiac numeric(2) NOT NULL,
+	Kwartal numeric(1) NOT NULL,
+	Rok numeric(4) NOT NULL,
+	DzienTygodnia numeric(1) NOT NULL,
+	NazwaMiesiacaPolska varchar(50) NOT NULL,
+	NazwaMiesiacaAngielska varchar(50) NOT NULL,
+	NazwaDniaTygodniaPolska varchar(50) NOT NULL,
+	NazwaDniaTygodniaAngielska varchar(50) NOT NULL
+)
+GO
+
+CREATE TABLE NB_HUR.Rachunek(
+	IdRachunku int identity(1,1) PRIMARY KEY,
+	IdRachunkuT int NOT NULL,
+	NumerRachunku char(26) NOT NULL,
+	DataZalozenia date NOT NULL,
+	IdWlascicielaT int NOT NULL,
+	ImieWlasciciela varchar(50) NOT NULL,
+	NazwiskoWlasciciela varchar(50) NOT NULL,
+	DataUrodzeniaWlasciciela date NOT NULL,
+	PlecWlasciciela char(1) NOT NULL,
+	IdMiastaWlascicielaT int NOT NULL,
+	DzielnicaWlasciciela varchar(100) NOT NULL,
+	MiastoWlasciciela varchar(255) NOT NULL,
+	WojewodztwoWlasciciela varchar(255) NOT NULL,
+	GrupaAktywnosci varchar(50) NULL
+)
+GO
+
+CREATE TABLE NB_HUR.RodzajOperacji(
+	IdRodzajuOperacji int identity(1,1) PRIMARY KEY,
+	IdRodzajuOperacjiT int NOT NULL,
+	Rodzaj varchar(150) NOT NULL,
+	RodzajAngielski varchar(150) NOT NULL,
+	Typ varchar(50) NOT NULL,
+	TypAngielski varchar(50) NOT NULL
+)
+GO
+
+CREATE TABLE NB_HUR.OddzialBanku(
+	IdOddzialuBanku int identity(1,1) PRIMARY KEY,
+	IdOddzialuBankuT int NOT NULL,
+	NazwaOddzialu varchar(255) NOT NULL,
+	IdMiastaT int NOT NULL,
+	Dzielnica varchar(100) NOT NULL,
+	Miasto varchar(255) NOT NULL,
+	Wojewodztwo varchar(255) NOT NULL
+)
+GO
+
+CREATE TABLE NB_HUR.Transakcje(
+	IdRachunku int NOT NULL,
+	IdOddzialuBanku int NOT NULL,
+	IdCzasu int NOT NULL,
+	IdRodzajuOperacji int NOT NULL,
+	SumarycznaKwota numeric(18, 2) NOT NULL,
+	LiczbaOperacji numeric(5) NOT NULL,
+	PRIMARY KEY(IdRachunku, IdOddzialuBanku, IdCzasu, IdRodzajuOperacji)
+)
+GO
+
+ALTER TABLE	NB_HUR.Transakcje
+ADD CONSTRAINT	fk_operacja
+FOREIGN KEY(IdRodzajuOperacji) REFERENCES NB_HUR.RodzajOperacji
+GO
+
+ALTER TABLE	NB_HUR.Transakcje
+ADD CONSTRAINT	fk_oddzial
+FOREIGN KEY(IdOddzialuBanku) REFERENCES NB_HUR.OddzialBanku
+GO
+
+ALTER TABLE	NB_HUR.Transakcje
+ADD CONSTRAINT	fk_konto
+FOREIGN KEY(IdRachunku) REFERENCES NB_HUR.Rachunek
+GO
+
+ALTER TABLE	NB_HUR.Transakcje
+ADD CONSTRAINT	fk_czas
+FOREIGN KEY(IdCzasu) REFERENCES NB_HUR.Czas
+GO
